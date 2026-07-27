@@ -1,4 +1,4 @@
-import streamlit as streamlit
+import streamlit as st
 # streamlit: We based app making
 # lite python framework
 
