@@ -107,7 +107,6 @@ IMPORTANT: wherever the profile photo goes in the resume, output exactly this ta
 <img src="PROFILE_IMAGE_PLACEHOLDER" style="width:100px;height:100px;border-radius:50%;">
 do not draw or generate any other image tag or placeholder circle yourself """
 final_prompt=prompt+resume()
-USER_INFO=st.text_area("ENTER YOUR INFORMATION")
 user_details = f"""user details: given below:
 Resume info: {user_info}
 Photo: {uploaded_file }
