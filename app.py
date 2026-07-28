@@ -107,16 +107,30 @@ IMPORTANT: wherever the profile photo goes in the resume, output exactly this ta
 <img src="PROFILE_IMAGE_PLACEHOLDER" style="width:100px;height:100px;border-radius:50%;">
 do not draw or generate any other image tag or placeholder circle yourself """
 final_prompt=prompt+resume()
-user_details = f"""user details: given below:
-Resume info: {user_info}
-Photo: {uploaded_file }
-Photo present in current directory with name as 
-uploaded_file, and once resume generated give
-download button in same html code.
-Default if not given: Give Python Developer Resume"""
+USER_INFO=st.text_input("ENTER YOUR INFORMATION")
+user_details=f"""user details:given below :
+resume info {USER_INFO} 
+DEFAULT IF NOT GIVEN : PYTHON DEVELOPER RESUME """
 query = final_prompt+user_details
 
+
 import base64
+
+OPTIONS = ["DELHI","NOIDA","GURGAON/GURUGRAM","KANPUR","LUCKNOW","BANGLORE","PUNE"]
+LOCATION = st.sidebar.multiselect("SELECT LOCATION:",
+                                  options = OPTIONS)
+JOB_PROFILE = ["PYTHON DEVELOPER","GEN AI",
+               "FULL-STACK DEVELOPER","DATA ANALYST"]
+PROFILE = st.sidebar.multiselect("SLET JOB ROLE",
+                                 options = JOB_PROFILE)
+
+jon_prompt = f"""Based on {PROFILE} jobs in {LOCATION},I
+want latest job news in using tavily,
+try top 10 search or whatever available
+and give result like naukri theme design with 
+job name, job desc, salary,
+apply link and output must be in HTML and no markdown"""
+                                
 
 if st.button('generate resume'):
   with st.spinner("runnign agent"):
@@ -126,7 +140,7 @@ if st.button('generate resume'):
     code=response['messages'][-1].content[-1]['text']
 
     # swap in the actual uploaded photo instead of the placeholder tag
-    if FILE is not None:
+    if uploaded_FILE is not None:
         with open(save_path, "rb") as img_file:
             b64_image = base64.b64encode(img_file.read()).decode()
         data_uri = f"data:image/jpeg;base64,{b64_image}"
