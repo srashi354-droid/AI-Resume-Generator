@@ -23,12 +23,19 @@ from langchain.messages import SystemMessage, HumanMessage
 import numpy as np
 import streamlit as st
 from langchain_community.document_loaders import PyMuPDFLoader
+from PIL import Image
 
 
 #=============API KEY LOAD=================
 GOOGLE_API_KEY = st.sidebar.text_input("GOOGLE_API_KEY",type = "password")
 GROQ_API_KEY = st.sidebar.text_input("GROQ_API_KEY",type = "password")
 TAVILY_API_KEY = st.sidebar.text_input("TAVILY_API_KEY",type = "password")
+
+if not(GOOGLE_API_KEY) and not (GROQ_API_KEY) and not (TAVILY_API_KEY):
+    st.sidebar.warning("PASS API KEYS")
+    st.stop()
+else:
+    st.success("API KEYS LOADED")
 
 
 #==================MODEL BUILDING===========
@@ -83,8 +90,34 @@ def resume_maker_prompt():
   with open('prompt.py', 'r') as f:
     prompt = f.read()
   return prompt
-
 resume_maker_prompt()
+
+
+#==========UPLOAD IMAGE============
+uploaded_file = st.sidebar.file_uploader(
+    "choose an image file",
+    type["jpg","jpeg","png","webp"]
+)
+if uploaded_file is not None:
+    try:
+        image = Image.open(uploaded_file)
+
+        st.sidebar.image(image,caption="Uploaded Image", use_container_width = True)
+        
+        if image.mode in ("RGBA","P"):
+            image = image.convert("RGB")
+        base_name = os.path.splitext(uploaded_file.name)[0]
+        save_path = f"{base_name}.jpeg"
+
+       # 3. Save the image to the current working directory
+
+       image.save(save_path,"JPEG")
+       st.sidebar.success(f"Image successully saved as {save_path}!")
+
+except Exception as e:
+       st.error(f"Error processing image:{e}")
+
+
 #===========GENERATE RESUME===========
 prompt = """You are a helpful AI assistant with job resume maker, your task
 is to give HTML format resume, with proper designing using recent CSS and JS
@@ -92,15 +125,16 @@ code, with professional design format. user will upload data and return HTML
 format resume"""
 
 final_prompt = prompt + resume_maker_prompt()
-user_details = """User details: given below:
-Rashi, +91 9868244014, rashi354@gmail.com
-Tilak Nagar,  New Delhi DOB 28-05-2006
-Skills: Python,Web developing, canva Expert, Sql
-Languages: Hindi, english,Punjabi
-Education: IITM university
-Bachelor of Computer Application
-Give Python Developer Resume, always use different styling use gradient
-theme pallete contrast in resume"""
+user_info = st.text_input("Enter your information")
+user_detai
+user_details = f"""User details: given below:
+Resume info:{user_info}
+Photo:{uploaded_file}
+Photo present in current directory with name as 
+uploaded_fie, and once resume generated give 
+download button in same html code
+Default if not given: Give Python Developer Resume"""
+
 
 query = final_prompt + user_details
 if st.button("Generate Resume"):
