@@ -124,7 +124,7 @@ format resume"""
 
 final_prompt = prompt + resume_maker_prompt()
 user_info = st.text_input("Enter your information")
-user_detai
+user_details
 user_details = f"""User details: given below:
 Resume info:{user_info}
 Photo:{uploaded_file}
