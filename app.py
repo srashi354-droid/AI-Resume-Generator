@@ -124,7 +124,7 @@ JOB_PROFILE = ["PYTHON DEVELOPER","GEN AI",
 PROFILE = st.sidebar.multiselect("SLET JOB ROLE",
                                  options = JOB_PROFILE)
 
-jon_prompt = f"""Based on {PROFILE} jobs in {LOCATION},I
+job_prompt = f"""Based on {PROFILE} jobs in {LOCATION},I
 want latest job news in using tavily,
 try top 10 search or whatever available
 and give result like naukri theme design with 
@@ -133,7 +133,7 @@ apply link and output must be in HTML and no markdown"""
                                 
 
 if st.button('generate resume'):
-  with st.spinner("runnign agent"):
+  with st.spinner("running agent"):
 
     response = agent.invoke({'messages': [{'role':'user','content':query}]})
     print(response['messages'][-1].content)
