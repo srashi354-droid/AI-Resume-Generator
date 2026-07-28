@@ -112,8 +112,8 @@ if uploaded_file is not None:
 image.save(save_path, "JPEG")
 st.sidebar.success(f"Image successully saved as {save_path}!")
 
-except Exception as e:
-st.error(f"Error processing image:{e}")
+      except Exception as e:
+          st.error(f"Error processing image:{e}")
 
 
 #===========GENERATE RESUME===========
