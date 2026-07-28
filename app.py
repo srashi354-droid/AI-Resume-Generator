@@ -108,7 +108,13 @@ IMPORTANT: wherever the profile photo goes in the resume, output exactly this ta
 do not draw or generate any other image tag or placeholder circle yourself """
 final_prompt=prompt+resume()
 USER_INFO=st.text_area("ENTER YOUR INFORMATION")
-user_details=f"""user details:given beow :resume info {USER_INFO} DEFAULT IF NOT GIVEN : PYTHON DEVELOPER RESUME """
+user_details=f"""user details:given beow :
+Resume info: {user_info}
+Photo: {uploaded_file }
+Photo present in current directory with name as 
+uploaded_file, and once resume generated give
+download button in same html code.
+Default if not given: Give Python Developer Resume"""
 query = final_prompt+user_details
 
 import base64
